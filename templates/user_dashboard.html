@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>ShopEasy</title>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🛒 ShopEasy</h1>
+
+    <nav>
+
+        <a href="/user-dashboard/">Home</a> |
+
+        <a href="#">Products</a> |
+
+        <a href="#">Categories</a> |
+
+        <a href="#">Cart 🛒</a> |
+
+        <a href="#">My Orders</a> |
+
+        <a href="#">Profile</a>
+
+    </nav>
+
+</header>
+
+<hr>
+
+<h2>Welcome to ShopEasy!</h2>
+
+<p>Find everything you need in one place.</p>
+
+<hr>
+
+<h2>Products</h2>
+
+<table border="1" cellpadding="20">
+
+    <tr>
+
+        <th>Product</th>
+
+        <th>Category</th>
+
+        <th>Price</th>
+
+        <th>Stock</th>
+
+        <th>Action</th>
+
+    </tr>
+
+    {% for product in products %}
+
+    <tr>
+
+        <td>
+
+            <h3>{{ product.name }}</h3>
+
+            <p>{{ product.description }}</p>
+
+        </td>
+
+        <td>
+
+            {{ product.category }}
+
+        </td>
+
+        <td>
+
+            ₹{{ product.price }}
+
+        </td>
+
+        <td>
+
+            {{ product.stock }}
+
+        </td>
+
+        <td>
+
+            <button>Add to Cart</button>
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+
+        <td colspan="5">
+
+            No products available.
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<hr>
+
+<footer>
+
+    <p>ShopEasy © 2026</p>
+
+    <button onclick="logout()">Logout</button>
+
+</footer>
+
+<script>
+
+function logout() {
+
+    localStorage.removeItem("access_token");
+
+    localStorage.removeItem("refresh_token");
+
+    localStorage.removeItem("role");
+
+    window.location.href = "/login/";
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+    <h1>Login</h1>
+
+    <input type="text" id="username" placeholder="Username">
+    <br><br>
+
+    <input type="password" id="password" placeholder="Password">
+    <br><br>
+
+    <button onclick="login('user')">
+        Login as User
+    </button>
+
+    <button onclick="login('admin')">
+        Login as Admin
+    </button>
+
+    <p id="message"></p>
+
+    <p>
+        Don't have an account?
+        <a href="/signup/">Sign Up</a>
+    </p>
+
+<script>
+
+async function login(role) {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const response = await fetch("/api/login/", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            username: username,
+            password: password,
+            role: role
+        })
+
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+
+        localStorage.setItem(
+            "access_token",
+            data.access
+        );
+
+        localStorage.setItem(
+            "refresh_token",
+            data.refresh
+        );
+
+        localStorage.setItem(
+            "role",
+            data.role
+        );
+
+        if (data.role === "admin") {
+            window.location.href = "/admin-dashboard/";
+        } else {
+            window.location.href = "/user-dashboard/";
+        }
+
+    } else {
+
+        document.getElementById("message").innerText =
+            data.error || JSON.stringify(data);
+
+    }
+}
+
+</script>
+
+</body>
+</html>
